@@ -1,1 +1,79 @@
-<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Live Mentorship - NFX Trading</title><link rel="stylesheet" href="style.css"><style>body{background:#05070b}.meeting{padding:25px 4%;max-width:1500px;margin:auto}.meeting h1{margin-bottom:6px}.status{color:#9ba6b5;margin-bottom:18px}.room{width:100%;height:75vh;min-height:520px;border:1px solid #252d39;border-radius:16px;overflow:hidden;background:#10151d}</style></head><body><header><b>NFX TRADING</b><a href="dashboard.html">Dashboard</a></header><main class="meeting"><p class="eyebrow">LIVE MENTORSHIP</p><h1>Live Meeting</h1><p class="status">Demo live meeting is connected. Allow camera and microphone when your browser asks.</p><div id="meeting" class="room"></div></main><script src="https://meet.jit.si/external_api.js"></script><script>const domain='meet.jit.si';const options={roomName:'NFXTradingMentorshipDemo2026',parentNode:document.querySelector('#meeting'),width:'100%',height:'100%',userInfo:{displayName:'NFX Trading Member'},configOverwrite:{prejoinConfig:{enabled:true}},interfaceConfigOverwrite:{MOBILE_APP_PROMO:false,TILE_VIEW_MAX_COLUMNS:4}};const api=new JitsiMeetExternalAPI(domain,options);api.addEventListener('videoConferenceJoined',()=>document.querySelector('.status').textContent='Connected. You can use camera, microphone, chat and screen sharing.');</script></body></html>
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live Mentorship - NFX Trading</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body{background:#05070b}
+.meeting{padding:40px 4%;max-width:1500px;margin:auto}
+.meeting h1{margin-bottom:8px}
+.status{color:#9ba6b5;margin-bottom:20px}
+.room{width:100%;height:72vh;min-height:500px;border:1px solid #252d39;border-radius:16px;overflow:hidden;background:#10151d;margin-top:18px}
+.join-btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:12px;background:#dff3ff;color:#071018;font-weight:800;text-decoration:none;border:0;cursor:pointer;margin:8px 10px 8px 0}
+.note{color:#7f8a9a;font-size:14px;margin-top:10px}
+</style>
+</head>
+<body>
+<header><b>NFX TRADING</b><a href="dashboard.html">Dashboard</a></header>
+
+<main class="meeting">
+<p class="eyebrow">LIVE MENTORSHIP</p>
+<h1>Live Mentorship</h1>
+<p class="status" id="status">Live room ready. Camera/microphone permission may be requested by your browser.</p>
+
+<a class="join-btn" href="https://meet.jit.si/NFXTradingMentorshipDemo2026" target="_blank" rel="noopener">Join Live Meeting</a>
+<button class="join-btn" id="loadBtn" type="button">Open Meeting Here</button>
+
+<p class="note">Agar embedded meeting load na ho, "Join Live Meeting" dabakar browser me meeting open karo.</p>
+<div id="meeting" class="room"></div>
+</main>
+
+<script>
+const domain = 'meet.jit.si';
+const roomName = 'NFXTradingMentorshipDemo2026';
+const status = document.getElementById('status');
+const loadBtn = document.getElementById('loadBtn');
+let loaded = false;
+
+function loadMeeting(){
+  if(loaded) return;
+  loaded = true;
+  status.textContent = 'Connecting to live meeting...';
+  loadBtn.style.display = 'none';
+
+  if(!window.JitsiMeetExternalAPI){
+    status.textContent = 'Meeting script load nahi hua. Upar "Join Live Meeting" button use karo.';
+    loadBtn.style.display = 'inline-flex';
+    loaded = false;
+    return;
+  }
+
+  const api = new JitsiMeetExternalAPI(domain, {
+    roomName,
+    parentNode: document.querySelector('#meeting'),
+    width: '100%',
+    height: '100%',
+    userInfo: {displayName:'NFX Trading Member'},
+    configOverwrite: {prejoinConfig:{enabled:true}},
+    interfaceConfigOverwrite: {MOBILE_APP_PROMO:false,TILE_VIEW_MAX_COLUMNS:4}
+  });
+
+  api.addEventListener('videoConferenceJoined', function(){
+    status.textContent = 'Connected. Camera, microphone, chat and screen sharing are available.';
+  });
+}
+
+document.getElementById('loadBtn').addEventListener('click', loadMeeting);
+
+const script = document.createElement('script');
+script.src = 'https://meet.jit.si/external_api.js';
+script.onload = loadMeeting;
+script.onerror = function(){
+  status.textContent = 'Embedded meeting load nahi hua. Upar "Join Live Meeting" button se meeting open karo.';
+};
+document.head.appendChild(script);
+</script>
+</body>
+</html>
