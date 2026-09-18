@@ -11,8 +11,6 @@ body{background:#05070b}
 .meeting h1{margin-bottom:8px}
 .status{color:#9ba6b5;margin-bottom:20px}
 .room{width:100%;height:72vh;min-height:500px;border:1px solid #252d39;border-radius:16px;overflow:hidden;background:#10151d;margin-top:18px}
-.join-btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:12px;background:#dff3ff;color:#071018;font-weight:800;text-decoration:none;border:0;cursor:pointer}
-.note{color:#7f8a9a;font-size:14px;margin-top:10px}
 </style>
 </head>
 <body>
@@ -21,12 +19,33 @@ body{background:#05070b}
 <main class="meeting">
 <p class="eyebrow">LIVE MENTORSHIP</p>
 <h1>Live Mentorship</h1>
-<p class="status" id="status">Live room ready. Tap Join Live Meeting to enter.</p>
-
-<a class="join-btn" href="https://meet.jit.si/NFXTradingMentorshipDemo2026" target="_blank" rel="noopener">Join Live Meeting</a>
-
-<p class="note">One-click join. Jitsi will handle the meeting screen in your browser.</p>
+<p class="status" id="status">Connecting to live meeting...</p>
 <div id="meeting" class="room"></div>
 </main>
+
+<script src="https://meet.jit.si/external_api.js"></script>
+<script>
+const api = new JitsiMeetExternalAPI('meet.jit.si', {
+  roomName: 'NFXTradingMentorshipDemo2026',
+  parentNode: document.querySelector('#meeting'),
+  width: '100%',
+  height: '100%',
+  userInfo: {displayName:'NFX Trading Member'},
+  configOverwrite: {
+    prejoinConfig: {enabled:true}
+  },
+  interfaceConfigOverwrite: {
+    MOBILE_APP_PROMO: false,
+    SHOW_JITSI_WATERMARK: false,
+    SHOW_WATERMARK_FOR_GUESTS: false,
+    SHOW_BRAND_WATERMARK: false,
+    SHOW_POWERED_BY: false,
+    TILE_VIEW_MAX_COLUMNS: 4
+  }
+});
+api.addEventListener('videoConferenceJoined', function(){
+  document.getElementById('status').textContent = 'Connected. Camera, microphone, chat and screen sharing are available.';
+});
+</script>
 </body>
 </html>
